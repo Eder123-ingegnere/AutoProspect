@@ -8,8 +8,8 @@ from tkinter import Tk, Label, Text, Button
 from threading import Thread
 
 # Dados de login
-usuario = "seu_user"
-senha = "seu_password"
+usuario = "seuinsta"
+senha = "suasenha"
 
 # Mensagens padrão
 mensagens_padrao = [
@@ -33,13 +33,13 @@ def iniciar_automacao():
     options = Options()
     options.add_argument(f"--user-data-dir={chrome_data_dir}")
     driver = webdriver.Chrome("chromedriver.exe", options=options)
-
+    
     # Abre o Instagram e realiza o login automaticamente
     driver.get("https://www.instagram.com/")
-    sleep(2)
-    driver.find_element_by_name("username").send_keys(usuario)
-    driver.find_element_by_name("password").send_keys(senha)
-    driver.find_element_by_xpath("//button[contains(., 'Entrar')]").click()
+    sleep(4)
+    driver.find_element("xpath","//*[@name='username']").send_keys(usuario)
+    driver.find_element("xpath","//*[@name='password']").send_keys(senha)
+    driver.find_element("xpath","//button[contains(., 'Entrar')]").click()
     sleep(5)
 
     # Percorre os perfis e envia as mensagens
@@ -49,18 +49,18 @@ def iniciar_automacao():
 
         # Abre o perfil
         driver.get(perfil_link)
-        sleep(3)
+        sleep(4)
 
         # Clica no botão de mensagem
-        message_button = driver.find_element_by_css_selector("button[type='button'][aria-label='Enviar mensagem']")
+        message_button = driver.find_element("xpath","//*[contains(text(), 'Enviar mensagem')]")
         message_button.click()
-        sleep(2)
+        sleep(4)
 
         # Digita a mensagem e envia
-        message_input = driver.find_element_by_css_selector("textarea[placeholder='Mensagem...']")
+        message_input = driver.find_element("xpath","//div[@aria-label='Mensagem']/p")
         message_input.send_keys(mensagem_variada)
         message_input.send_keys(Keys.ENTER)
-        sleep(2)
+        sleep(4)
 
         print("Mensagem enviada para o perfil:", perfil_link)
         print("Mensagem utilizada:", mensagem_variada)
